@@ -56,6 +56,8 @@ let cardShow = [...document.querySelectorAll('.open')];
 for (let k = 0; k < cardNum; k++) {
   // cardSelector[k].addEventListener('click', matchFunction);
   cardSelector[k].addEventListener('click', cardReveal);
+  cardSelector[k].addEventListener('click', moveCounter);
+
 };
 
 
@@ -132,9 +134,7 @@ function cardReveal(callback) {
 
 
 /*
-
 Timer
-
  */
 
 function startTimer() {
@@ -142,12 +142,13 @@ function startTimer() {
   setInterval(function() {
     counter++;
     if (counter >= 0) {
+      // convert counter to minutes, round down to get whole number, and add 0 in front if it's a single digit
       let rawMins = Math.floor(counter / 60);
-      let mins=rawMins.toString().padStart(2,"0");
-
+      let mins = rawMins.toString().padStart(2, "0");
+      // convert leftover seconds into double digits
       let rawSeconds = counter - (mins * 60);
-      let seconds=rawSeconds.toString().padStart(2,"0");
-
+      let seconds = rawSeconds.toString().padStart(2, "0");
+      // inject mins and seconds into HTML as a timer
       span = document.getElementById("timerDiv");
       span.innerHTML = mins + ":" + seconds;
     }
@@ -166,3 +167,27 @@ restartBtn.addEventListener('click', function restart() {
   document.getElementById("timerDiv").innerHTML = "";
   cardDeck.addEventListener('click', startTimer);
 });
+
+
+
+
+/*
+
+Move Counter and Star Rating
+
+ */
+let moveCount = 0;
+let move = document.querySelector('.moves');
+console.log(move);
+
+function moveCounter() {
+  moveCount++;
+  console.log(moveCount);
+  move.innerHTML = moveCount;
+
+  if (moveCount > 10) {
+    let stars = [...document.querySelectorAll('.stars li')];
+    console.log(stars);
+    stars.pop(stars[4]);
+  }
+}
