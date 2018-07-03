@@ -179,15 +179,58 @@ Move Counter and Star Rating
 let moveCount = 0;
 let move = document.querySelector('.moves');
 console.log(move);
+const starRating = document.querySelector('.stars');
+const stars = [...document.querySelectorAll('.stars li')];
+
+// initialize stars at 5 stars
+starRating.innerHTML = '';
+for (let l = 0; l < 5; l++) {
+  starRating.insertAdjacentHTML('afterbegin', stars[l].outerHTML);
+}
+
 
 function moveCounter() {
   moveCount++;
   console.log(moveCount);
   move.innerHTML = moveCount;
 
-  if (moveCount > 10) {
-    let stars = [...document.querySelectorAll('.stars li')];
-    console.log(stars);
-    stars.pop(stars[4]);
+  // if moves = or less than 10, 5 stars
+  if (moveCount <= 10) {
+    starRating.innerHTML = '';
+
+    for (let l = 0; l < 5; l++) {
+      starRating.insertAdjacentHTML('afterbegin', stars[l].outerHTML);
+    }
+  } else if (moveCount > 10 && moveCount <= 20) {
+    // if moves between 10 and 20, 4 stars
+    starRating.innerHTML = '';
+
+    for (let m = 0; m < 4; m++) {
+      starRating.insertAdjacentHTML('afterbegin', stars[m].outerHTML);
+    }
+  } else if (moveCount > 20 && moveCount <= 30) {
+    // if moves between 20 and 30, 3 stars
+
+    starRating.innerHTML = '';
+
+    for (let m = 0; m < 3; m++) {
+      starRating.insertAdjacentHTML('afterbegin', stars[m].outerHTML);
+    }
+  } else if (moveCount > 30 && moveCount <= 40) {
+    // if moves between 30 and 40, 2 stars
+
+    starRating.innerHTML = '';
+
+    for (let m = 0; m < 2; m++) {
+      starRating.insertAdjacentHTML('afterbegin', stars[m].outerHTML);
+    }
+  } else if (moveCount > 40) {
+    // if moves over 40, 1 star
+
+    starRating.innerHTML = '';
+
+    for (let m = 0; m < 1; m++) {
+      starRating.insertAdjacentHTML('afterbegin', stars[m].outerHTML);
+    }
   }
 }
