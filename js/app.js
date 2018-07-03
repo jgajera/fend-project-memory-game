@@ -54,9 +54,8 @@ let cardSelector = [...document.querySelectorAll('.card')];
 let cardShow = [...document.querySelectorAll('.open')];
 
 for (let k = 0; k < cardNum; k++) {
-  cardSelector[k].addEventListener('click', matchFunction);
+  // cardSelector[k].addEventListener('click', matchFunction);
   cardSelector[k].addEventListener('click', cardReveal);
-
 };
 
 
@@ -81,50 +80,42 @@ function cardReveal(callback) {
 
   console.log(cardShow);
 
-}
 
-
-
-function matchFunction() {
   let openCards = [...document.querySelectorAll('.open')];
 
   let openNum = openCards.length;
   console.log(openCards, openNum);
-  if (openNum = 2) {
-    let firstPick = openCards[0].innerHTML;
-    let secondPick = openCards[1].innerHTML;
-    if (firstPick === secondPick) {
-      openCards[0].classList.remove('show');
-      openCards[1].classList.remove('show');
-      openCards[0].classList.add('match');
-      openCards[1].classList.add('match');
-      openCards[0].classList.remove('open');
-      openCards[1].classList.remove('open');
-      openCards.pop(openCards[1]);
-      openCards.pop(openCards[0]);
-      return openCards;
-    } else {
-      openCards[0].classList.remove('show');
-      openCards[1].classList.remove('show');
-      openCards[0].classList.remove('open');
-      openCards[1].classList.remove('open');
-      openCards = [];
-      return openCards;
+  if (openNum >= 1) {
+    if (openNum === 1) {
+      let firstPick = openCards[0].innerHTML;
+    } else if (openNum = 2) {
+      let firstPick = openCards[0].innerHTML;
+      let secondPick = openCards[1].innerHTML;
+      if (firstPick === secondPick) {
+        openCards[0].classList.remove('show');
+        openCards[1].classList.remove('show');
+        openCards[0].classList.add('match');
+        openCards[1].classList.add('match');
+        openCards[0].classList.remove('open');
+        openCards[1].classList.remove('open');
+        openCards.pop(openCards[1]);
+        openCards.pop(openCards[0]);
+        return openCards;
+      } else if (firstPick !== secondPick) {
+        openCards[0].classList.remove('show');
+        openCards[1].classList.remove('show');
+        openCards[0].classList.remove('open');
+        openCards[1].classList.remove('open');
+        openCards = [];
+        console.log(openCards);
+        return openCards;
+      }
     }
-  } else if (openNum > 2) {
-    openCards[0].classList.remove('show');
-    openCards[1].classList.remove('show');
-    openCards[0].classList.remove('open');
-    openCards[1].classList.remove('open');
-    openCards = [];
-    return openCards;
-  } else if (openNum = 36) {
-    openCards[0].classList.add('match');
-    openCards[1].classList.add('match');
   }
   console.log(openCards);
   console.log(openNum);
 }
+
 
 
 /*  - if the list already has another card, check to see if the two cards match
@@ -134,3 +125,44 @@ function matchFunction() {
  *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
+
+
+
+
+
+
+/*
+
+Timer
+
+ */
+
+function startTimer() {
+  var counter = 0;
+  setInterval(function() {
+    counter++;
+    if (counter >= 0) {
+      let rawMins = Math.floor(counter / 60);
+      let mins=rawMins.toString().padStart(2,"0");
+
+      let rawSeconds = counter - (mins * 60);
+      let seconds=rawSeconds.toString().padStart(2,"0");
+
+      span = document.getElementById("timerDiv");
+      span.innerHTML = mins + ":" + seconds;
+    }
+  }, 1000);
+  cardDeck.removeEventListener('click', startTimer);
+}
+
+
+cardDeck.addEventListener('click', startTimer);
+
+
+// // // restart button functionality
+const restartBtn = document.querySelector('#restart');
+
+restartBtn.addEventListener('click', function restart() {
+  document.getElementById("timerDiv").innerHTML = "";
+  cardDeck.addEventListener('click', startTimer);
+});
