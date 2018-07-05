@@ -89,7 +89,7 @@ h1 {
 }
 
 .error {
-  animation: shake 0.82s cubic-bezier(.36, .07, .19, .97) both;
+  animation: shake 0.42s cubic-bezier(.36, .07, .19, .97) both;
   transform: translate3d(0, 0, 0);
   backface-visibility: hidden;
   perspective: 1000px;
@@ -209,4 +209,10 @@ Modal CSS, from https://ctrlq.org/code/20083-modal-popup-css
 .modal-window h1 {
   font-size: 150%;
   margin: 0 0 15px;
+}
+
+
+#finalStars li {
+    float: left;
+    list-style: none;
 }
