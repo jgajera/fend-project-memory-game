@@ -64,14 +64,14 @@ for (let k = 0; k < cardNum; k++) {
 function cardReveal(callback) {
   // if card is already open, close it
   if (this.classList.contains('open') === true) {
-    this.classList.remove('open');
-    this.classList.remove('show');
+    this.classList.remove('open', 'show','error');
     cardShow.pop(this);
   }
   // if card is matched, don't touch it
   else if (this.classList.contains('match') === true) {
 
   }
+
   // if card is just .card, add .open and .show
   else {
     this.classList.add('open', 'show');
@@ -87,13 +87,17 @@ function cardReveal(callback) {
 
   let openNum = openCards.length;
   console.log(openCards, openNum);
+
   if (openNum >= 1) {
     if (openNum === 1) {
       let firstPick = openCards[0].innerHTML;
+      openCards[0].classList.remove('error');
     } else if (openNum = 2) {
       let firstPick = openCards[0].innerHTML;
       let secondPick = openCards[1].innerHTML;
       if (firstPick === secondPick) {
+        openCards[0].classList.remove('error');
+        openCards[1].classList.remove('error');
         openCards[0].classList.remove('show');
         openCards[1].classList.remove('show');
         openCards[0].classList.add('match');
@@ -104,11 +108,12 @@ function cardReveal(callback) {
         openCards.pop(openCards[0]);
         return openCards;
       } else if (firstPick !== secondPick) {
+        openCards[1].classList.add('error');
         openCards[0].classList.remove('show');
         openCards[1].classList.remove('show');
         openCards[0].classList.remove('open');
         openCards[1].classList.remove('open');
-        openCards = [];
+        openCards[0].classList.add('error');
         console.log(openCards);
         return openCards;
       }
@@ -120,12 +125,7 @@ function cardReveal(callback) {
 
 
 
-/*  - if the list already has another card, check to see if the two cards match
- */
-/*    + if the cards do match, lock the cards in the open position (put this functionality in another function that you call from this one)
- *    + if the cards do not match, remove the cards from the list and hide the card's symbol (put this functionality in another function that you call from this one)
- *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
- *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
+/*    + if the cards do not match, remove the cards from the list and hide the card's symbol (put this functionality in another function that you call from this one)
  */
 
 
@@ -134,7 +134,7 @@ function cardReveal(callback) {
 
 
 /*
-Timer
+Timer - taken partially from https://www.sitepoint.com/community/t/want-timer-to-start-on-button-click-always-starts-on-load-why/291783
  */
 
 function startTimer() {
@@ -178,7 +178,6 @@ Move Counter and Star Rating
  */
 let moveCount = 0;
 let move = document.querySelector('.moves');
-console.log(move);
 const starRating = document.querySelector('.stars');
 const stars = [...document.querySelectorAll('.stars li')];
 
@@ -191,7 +190,6 @@ for (let l = 0; l < 5; l++) {
 
 function moveCounter() {
   moveCount++;
-  console.log(moveCount);
   move.innerHTML = moveCount;
 
   // if moves = or less than 10, 5 stars
@@ -210,7 +208,6 @@ function moveCounter() {
     }
   } else if (moveCount > 20 && moveCount <= 30) {
     // if moves between 20 and 30, 3 stars
-
     starRating.innerHTML = '';
 
     for (let m = 0; m < 3; m++) {
@@ -218,7 +215,6 @@ function moveCounter() {
     }
   } else if (moveCount > 30 && moveCount <= 40) {
     // if moves between 30 and 40, 2 stars
-
     starRating.innerHTML = '';
 
     for (let m = 0; m < 2; m++) {
@@ -226,7 +222,6 @@ function moveCounter() {
     }
   } else if (moveCount > 40) {
     // if moves over 40, 1 star
-
     starRating.innerHTML = '';
 
     for (let m = 0; m < 1; m++) {
@@ -234,3 +229,40 @@ function moveCounter() {
     }
   }
 }
+
+
+
+
+/*
+
+Congratulations Modal
+
+*/
+
+// launch this baby when all cards are matched... keep checking to see if 
+function congratsModal() {
+  // find how many cards are open, and how many are matched
+  let cardsOpen = [...document.querySelectorAll('.open')];
+  let cardsMatched = [...document.querySelectorAll('.match')];
+
+  // find how many cards are closed by subtracting matched + open from total
+  let remainingClosed = 16 - cardsOpen.length - cardsMatched.length;
+
+  if (remainingClosed === 0) {
+    let modalBody = document.querySelector('.modal-body');
+
+    let finalStars = [...document.querySelectorAll('.stars li')];
+    console.log(finalStars);
+
+    let finalMoves = document.querySelectorAll('.moves').textContent;
+    console.log(finalMoves);
+
+    modalBody.insertAdjacentHTML('afterbegin', finalStars);
+    modalBody.insertAdjacentHTML('afterbegin', finalMoves);
+
+    document.getElementById('modal-link').click();
+  }
+
+}
+
+cardDeck.addEventListener('click', congratsModal);
