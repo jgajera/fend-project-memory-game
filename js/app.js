@@ -64,7 +64,7 @@ for (let k = 0; k < cardNum; k++) {
 function cardReveal(callback) {
   // if card is already open, close it
   if (this.classList.contains('open') === true) {
-    this.classList.remove('open', 'show','error');
+    this.classList.remove('open', 'show', 'error');
     cardShow.pop(this);
   }
   // if card is matched, don't touch it
@@ -82,22 +82,17 @@ function cardReveal(callback) {
 
   console.log(cardShow);
 
-
   let openCards = [...document.querySelectorAll('.open')];
 
   let openNum = openCards.length;
-  console.log(openCards, openNum);
 
   if (openNum >= 1) {
     if (openNum === 1) {
       let firstPick = openCards[0].innerHTML;
-      openCards[0].classList.remove('error');
     } else if (openNum = 2) {
       let firstPick = openCards[0].innerHTML;
       let secondPick = openCards[1].innerHTML;
       if (firstPick === secondPick) {
-        openCards[0].classList.remove('error');
-        openCards[1].classList.remove('error');
         openCards[0].classList.remove('show');
         openCards[1].classList.remove('show');
         openCards[0].classList.add('match');
@@ -109,28 +104,29 @@ function cardReveal(callback) {
         return openCards;
       } else if (firstPick !== secondPick) {
         openCards[1].classList.add('error');
-        openCards[0].classList.remove('show');
-        openCards[1].classList.remove('show');
-        openCards[0].classList.remove('open');
-        openCards[1].classList.remove('open');
         openCards[0].classList.add('error');
-        console.log(openCards);
+        // show both cards for 1 second so user can memorize both cards, then flip them back over to not show/open
+        setTimeout(removeShow, 1000);
         return openCards;
       }
     }
   }
-  console.log(openCards);
-  console.log(openNum);
+
+  // remove 'error' class from all cards on every run through, only add error class in the instance above
+  for (let k = 0; k < cardNum; k++) {
+    // cardSelector[k].addEventListener('click', matchFunction);
+    cardSelector[k].classList.remove('error');
+  };
+
+
+  // function to remove open and show classes after timeout function when two cards don't match
+  function removeShow() {
+    openCards[0].classList.remove('show');
+    openCards[1].classList.remove('show');
+    openCards[0].classList.remove('open');
+    openCards[1].classList.remove('open');
+  }
 }
-
-
-
-/*    + if the cards do not match, remove the cards from the list and hide the card's symbol (put this functionality in another function that you call from this one)
- */
-
-
-
-
 
 
 /*
