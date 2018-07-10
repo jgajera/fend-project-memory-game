@@ -47,9 +47,6 @@ shuffle(cards);
 
 
 
-
-
-
 /*
  * set up the event listener for a card. If a card is clicked:
  *  - display the card's symbol (put this functionality in another function that you call from this one)
@@ -165,6 +162,7 @@ function timerFunction() {
       // inject mins and seconds into HTML as a timer
       timerSpan.innerHTML = mins + ":" + seconds;
     }
+    // remove the event listener on the card deck so timer doesn't keep resetting
     removeEventListenerTimer();
   }, 1000);
 }
@@ -184,23 +182,24 @@ function removeEventListenerTimer() {
 const restartBtn = document.querySelector('.restart-link');
 console.log(restartBtn);
 
-restartBtn.addEventListener('click', function() {
+restartBtn.addEventListener('click', resetFunction);
 
-
+function resetFunction() {
   // on restart button click, shuffle cards
   shuffle(cards);
-
-
-  let card = [...document.querySelectorAll('.card')];
-  cardEvents(card);
-
 
   // and clear timer HTML
   clearInterval(timerStart);
   timerSpan.innerHTML = '00:00';
 
+  moveCount = 0;
+  moveCounter();
 
-});
+  let cardSelect = [...document.querySelectorAll('.card')];
+  cardEvents(cardSelect);
+
+
+}
 
 
 
