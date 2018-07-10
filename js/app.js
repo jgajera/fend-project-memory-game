@@ -57,12 +57,14 @@ shuffle(cards);
 // // // select cards in a fresh variable, select open cards, add event listener onto all cards and attach reveal card function to the event
 let cardSelector = [...document.querySelectorAll('.card')];
 
+cardEvents(cardSelector);
 
-for (let k = 0; k < cardNum; k++) {
-  cardSelector[k].addEventListener('click', cardReveal);
-  cardSelector[k].addEventListener('click', moveCounter);
-};
-
+function cardEvents(m) {
+  for (let k = 0; k < cardNum; k++) {
+    m[k].addEventListener('click', cardReveal);
+    m[k].addEventListener('click', moveCounter);
+  }
+}
 
 function cardReveal(callback) {
   let cardShow = [...document.querySelectorAll('.open')];
@@ -110,16 +112,19 @@ function cardReveal(callback) {
         openCards[1].classList.add('error');
         openCards[0].classList.add('error');
         // show both cards for 1 second so user can memorize both cards, then flip them back over to not show/open
-        setTimeout(removeShow, 800);
+        setTimeout(removeShow, 600);
         return openCards;
       }
     }
   }
 
+
   // remove 'error' class from all cards on every run through, only add error class in the instance above
+  let cardSelect = [...document.querySelectorAll('.card')];
+
   for (let k = 0; k < cardNum; k++) {
     // cardSelector[k].addEventListener('click', matchFunction);
-    cardSelector[k].classList.remove('error');
+    cardSelect[k].classList.remove('error');
   };
 
   // function to remove open and show classes after timeout function when two cards don't match
@@ -147,23 +152,21 @@ let m = 0;
 let timerStart;
 
 function timerFunction() {
-  timerStart = setInterval(startTimer, 1000);
-}
-
-function startTimer() {
-  // add 1 second to timer as time goes on
-  m++;
-  if (m >= 0) {
-    // convert counter to minutes, round down to get whole number, and add 0 in front if it's a single digit
-    let rawMins = Math.floor(m / 60);
-    let mins = rawMins.toString().padStart(2, "0");
-    // convert leftover seconds into double digits
-    let rawSeconds = m - (mins * 60);
-    let seconds = rawSeconds.toString().padStart(2, "0");
-    // inject mins and seconds into HTML as a timer
-    timerSpan.innerHTML = mins + ":" + seconds;
-  }
-  removeEventListenerTimer();
+  timerStart = setInterval(function startTimer() {
+    // add 1 second to timer as time goes on
+    m++;
+    if (m >= 0) {
+      // convert counter to minutes, round down to get whole number, and add 0 in front if it's a single digit
+      let rawMins = Math.floor(m / 60);
+      let mins = rawMins.toString().padStart(2, "0");
+      // convert leftover seconds into double digits
+      let rawSeconds = m - (mins * 60);
+      let seconds = rawSeconds.toString().padStart(2, "0");
+      // inject mins and seconds into HTML as a timer
+      timerSpan.innerHTML = mins + ":" + seconds;
+    }
+    removeEventListenerTimer();
+  }, 1000);
 }
 
 cardDeck.addEventListener('click', timerFunction);
@@ -180,16 +183,22 @@ function removeEventListenerTimer() {
 // // // restart button functionality
 const restartBtn = document.querySelector('.restart-link');
 console.log(restartBtn);
+
 restartBtn.addEventListener('click', function() {
+
+
+  // on restart button click, shuffle cards
   shuffle(cards);
-  timerSpan.innerHTML = '';
 
-  for (let k = 0; k < cardNum; k++) {
-    cardSelector[k].addEventListener('click', cardReveal);
-    cardSelector[k].addEventListener('click', moveCounter);
-  };
 
+  let card = [...document.querySelectorAll('.card')];
+  cardEvents(card);
+
+
+  // and clear timer HTML
   clearInterval(timerStart);
+  timerSpan.innerHTML = '00:00';
+
 
 });
 
@@ -212,10 +221,10 @@ for (let l = 0; l < 5; l++) {
   starRating.insertAdjacentHTML('afterbegin', stars[l].outerHTML);
 }
 
+// init move counter at 0 so we can add onto it later
+let moveCount = 0;
 
 function moveCounter() {
-  // init move counter at 0 so we can add onto it later
-  let moveCount = 0;
   // grab move HTML to inject counter later
   let move = document.querySelector('.moves');
 
@@ -283,6 +292,9 @@ function congratsModal() {
 
   // if there are no more open cards, launch the congrats modal
   if (remainingClosed === 0) {
+    // pause timer
+    clearInterval(timerStart);
+
     // grab how many stars are left for the rating, set variable to the final stars div
     let finalStars = [...document.querySelectorAll('.stars li')];
     let finalStarAmt = finalStars.length;
