@@ -1,6 +1,7 @@
 // // select cards (li) and put them into an array + get an initial array count
 let cards = [...document.querySelectorAll('.card')];
 const cardNum = cards.length;
+const cardDeck = document.querySelector('.deck');
 
 /*   - shuffle the list of cards using the provided "shuffle" method below
  *   - loop through each card and create its HTML
@@ -19,29 +20,34 @@ function shuffle(array) {
     array[currentIndex] = array[randomIndex];
     array[randomIndex] = temporaryValue;
   }
+
+  // // save shuffled array into empty array for future use!
+  let cardsShuff = [];
+  for (let i = 0; i < cardNum; i++) {
+    let cardContent = cards[i];
+    cardsShuff.push(cardContent);
+  }
+
+  // // feed new shuffled array into the HTML
+  // // // 1. first clear current grid
+  cardDeck.innerHTML = '';
+
+  // // // 2. insert new shuffled array as cards
+  for (let j = 0; j < cardNum; j++) {
+    cardDeck.insertAdjacentHTML('afterbegin', cardsShuff[j].outerHTML);
+  }
+
   return array;
+
+
 }
 
 // // run our card (li) array through a good shuffle on page load
 shuffle(cards);
 
 
-// // save shuffled array into empty array for future use!
-let cardsShuff = [];
-for (let i = 0; i < cardNum; i++) {
-  let cardContent = cards[i];
-  cardsShuff.push(cardContent);
-}
 
-// // feed new shuffled array into the HTML
-// // // 1. first clear current grid
-const cardDeck = document.querySelector('.deck');
-cardDeck.innerHTML = '';
 
-// // // 2. insert new shuffled array as cards
-for (let j = 0; j < cardNum; j++) {
-  cardDeck.insertAdjacentHTML('afterbegin', cardsShuff[j].outerHTML);
-}
 
 
 /*
@@ -51,17 +57,16 @@ for (let j = 0; j < cardNum; j++) {
 // // // select cards in a fresh variable, select open cards, add event listener onto all cards and attach reveal card function to the event
 let cardSelector = [...document.querySelectorAll('.card')];
 
-let cardShow = [...document.querySelectorAll('.open')];
 
 for (let k = 0; k < cardNum; k++) {
-  // cardSelector[k].addEventListener('click', matchFunction);
   cardSelector[k].addEventListener('click', cardReveal);
   cardSelector[k].addEventListener('click', moveCounter);
-
 };
 
 
 function cardReveal(callback) {
+  let cardShow = [...document.querySelectorAll('.open')];
+
   // if card is already open, close it
   if (this.classList.contains('open') === true) {
     this.classList.remove('open', 'show', 'error');
@@ -80,7 +85,6 @@ function cardReveal(callback) {
     cardShow.push(this);
   }
 
-  console.log(cardShow);
 
   let openCards = [...document.querySelectorAll('.open')];
 
@@ -106,7 +110,7 @@ function cardReveal(callback) {
         openCards[1].classList.add('error');
         openCards[0].classList.add('error');
         // show both cards for 1 second so user can memorize both cards, then flip them back over to not show/open
-        setTimeout(removeShow, 1000);
+        setTimeout(removeShow, 800);
         return openCards;
       }
     }
@@ -118,7 +122,6 @@ function cardReveal(callback) {
     cardSelector[k].classList.remove('error');
   };
 
-
   // function to remove open and show classes after timeout function when two cards don't match
   function removeShow() {
     openCards[0].classList.remove('show');
@@ -126,42 +129,68 @@ function cardReveal(callback) {
     openCards[0].classList.remove('open');
     openCards[1].classList.remove('open');
   }
+
 }
+
+
+
 
 
 /*
 Timer - taken partially from https://www.sitepoint.com/community/t/want-timer-to-start-on-button-click-always-starts-on-load-why/291783
  */
 
-function startTimer() {
-  var counter = 0;
-  setInterval(function() {
-    counter++;
-    if (counter >= 0) {
-      // convert counter to minutes, round down to get whole number, and add 0 in front if it's a single digit
-      let rawMins = Math.floor(counter / 60);
-      let mins = rawMins.toString().padStart(2, "0");
-      // convert leftover seconds into double digits
-      let rawSeconds = counter - (mins * 60);
-      let seconds = rawSeconds.toString().padStart(2, "0");
-      // inject mins and seconds into HTML as a timer
-      span = document.getElementById("timerDiv");
-      span.innerHTML = mins + ":" + seconds;
-    }
-  }, 1000);
-  cardDeck.removeEventListener('click', startTimer);
+timerSpan = document.getElementById("timerDiv");
+// init timer at 0
+let m = 0;
+
+let timerStart;
+
+function timerFunction() {
+  timerStart = setInterval(startTimer, 1000);
 }
 
+function startTimer() {
+  // add 1 second to timer as time goes on
+  m++;
+  if (m >= 0) {
+    // convert counter to minutes, round down to get whole number, and add 0 in front if it's a single digit
+    let rawMins = Math.floor(m / 60);
+    let mins = rawMins.toString().padStart(2, "0");
+    // convert leftover seconds into double digits
+    let rawSeconds = m - (mins * 60);
+    let seconds = rawSeconds.toString().padStart(2, "0");
+    // inject mins and seconds into HTML as a timer
+    timerSpan.innerHTML = mins + ":" + seconds;
+  }
+  removeEventListenerTimer();
+}
 
-cardDeck.addEventListener('click', startTimer);
+cardDeck.addEventListener('click', timerFunction);
+
+function removeEventListenerTimer() {
+  cardDeck.removeEventListener('click', timerFunction);
+};
+
+
+
+
 
 
 // // // restart button functionality
-const restartBtn = document.querySelector('#restart');
+const restartBtn = document.querySelector('.restart-link');
+console.log(restartBtn);
+restartBtn.addEventListener('click', function() {
+  shuffle(cards);
+  timerSpan.innerHTML = '';
 
-restartBtn.addEventListener('click', function restart() {
-  document.getElementById("timerDiv").innerHTML = "";
-  cardDeck.addEventListener('click', startTimer);
+  for (let k = 0; k < cardNum; k++) {
+    cardSelector[k].addEventListener('click', cardReveal);
+    cardSelector[k].addEventListener('click', moveCounter);
+  };
+
+  clearInterval(timerStart);
+
 });
 
 
@@ -172,8 +201,8 @@ restartBtn.addEventListener('click', function restart() {
 Move Counter and Star Rating
 
  */
-let moveCount = 0;
-let move = document.querySelector('.moves');
+
+// grab stars so we can inject HTML and decrement as moves go up
 const starRating = document.querySelector('.stars');
 const stars = [...document.querySelectorAll('.stars li')];
 
@@ -185,8 +214,14 @@ for (let l = 0; l < 5; l++) {
 
 
 function moveCounter() {
+  // init move counter at 0 so we can add onto it later
+  let moveCount = 0;
+  // grab move HTML to inject counter later
+  let move = document.querySelector('.moves');
+
+
   moveCount++;
-  move.innerHTML = moveCount;
+  move.innerHTML = Math.floor(moveCount / 2);
 
   // if moves = or less than 10, 5 stars
   if (moveCount <= 10) {
@@ -235,30 +270,42 @@ Congratulations Modal
 
 */
 
-// launch this baby when all cards are matched... keep checking to see if 
+// launch this baby when all cards are matched... keep checking to see if number of remaining cards is 0
+cardDeck.addEventListener('click', congratsModal);
+
 function congratsModal() {
   // find how many cards are open, and how many are matched
   let cardsOpen = [...document.querySelectorAll('.open')];
   let cardsMatched = [...document.querySelectorAll('.match')];
 
-  // find how many cards are closed by subtracting matched + open from total
+  // find how many cards are closed by subtracting matched + open from total num of cards (16)
   let remainingClosed = 16 - cardsOpen.length - cardsMatched.length;
 
+  // if there are no more open cards, launch the congrats modal
   if (remainingClosed === 0) {
-    let modalBody = document.querySelector('.modal-body');
-
+    // grab how many stars are left for the rating, set variable to the final stars div
     let finalStars = [...document.querySelectorAll('.stars li')];
-    console.log(finalStars);
+    let finalStarAmt = finalStars.length;
+    let finalStarsDiv = document.querySelector('#finalStars');
 
-    let finalMoves = document.querySelectorAll('.moves').textContent;
-    console.log(finalMoves);
+    // grab how many moves were recorded, set variable to the final moves div
+    let finalMoves = "<strong>Total Moves: </strong>" + document.querySelector('.moves').innerText;
+    let finalMovesDiv = document.querySelector('#finalMoves');
 
-    modalBody.insertAdjacentHTML('afterbegin', finalStars);
-    modalBody.insertAdjacentHTML('afterbegin', finalMoves);
+    // grab the time  recorded, set variable to the final time div
+    let finalTime = "<strong>Final Time: </strong>" + document.querySelector('#timerDiv').innerText;
+    let finalTimeDiv = document.querySelector('#finalTime');
+
+    // insert grabbed stars, move count, and time and injects into HTML
+    for (let i = 0; i < finalStarAmt; i++) {
+      finalStarsDiv.insertAdjacentHTML('afterbegin', finalStars[i].outerHTML);
+    }
+    finalMovesDiv.insertAdjacentHTML('afterbegin', finalMoves);
+    finalTimeDiv.insertAdjacentHTML('afterbegin', finalTime);
 
     document.getElementById('modal-link').click();
+
+
   }
 
 }
-
-cardDeck.addEventListener('click', congratsModal);
