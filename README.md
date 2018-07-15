@@ -3,21 +3,17 @@
 ## Table of Contents
 
 * [Instructions](#instructions)
+* [Resources](#resources)
 * [Contributing](#contributing)
 
 ## Instructions
+This project is a variation of the memory game, where you flip cards over in pairs until you find a matching pair. When two cards are matched, they remain showing. The game continues until all cards are showing ("matched").
 
-The starter project has some HTML and CSS styling to display a static version of the Memory Game project. You'll need to convert this project from a static project to an interactive one. This will require modifying the HTML and CSS files, but primarily the JavaScript file.
-
-To get started, open `js/app.js` and start building out the app's functionality
-
-For specific, detailed instructions, look at the project instructions in the [Udacity Classroom](https://classroom.udacity.com/me).
-
-Rubric is located at https://review.udacity.com/#!/rubrics/591/view.
-
-Git style guide https://udacity.github.io/git-styleguide/.
-
-JS style guide http://udacity.github.io/frontend-nanodegree-styleguide/javascript.html.
+## Resources
+I used the following resources:
+- Shuffle function: http://stackoverflow.com/a/2450976
+- Timer function: https://www.sitepoint.com/community/t/want-timer-to-start-on-button-click-always-starts-on-load-why/291783
+- All-CSS congratulations modal: https://ctrlq.org/code/20083-modal-popup-css
 
 ## Contributing
-
+Not accepting contributions! Feel free to open an issue if you find one. Thanks!
