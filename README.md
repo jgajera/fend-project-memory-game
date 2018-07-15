@@ -5,6 +5,7 @@
 * [Instructions](#instructions)
 * [Resources](#resources)
 * [Contributing](#contributing)
+* [Miscellaneous Notes](#miscnotes)
 
 ## Instructions
 This project is a variation of the memory game, where you flip cards over in pairs until you find a matching pair. When two cards are matched, they remain showing. The game continues until all cards are showing ("matched").
@@ -17,3 +18,6 @@ I used the following resources:
 
 ## Contributing
 Not accepting contributions! Feel free to open an issue if you find one. Thanks!
+
+## MiscNotes
+This project is based on the starter code from Udacity FEND's repo for this project.
