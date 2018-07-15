@@ -1,14 +1,17 @@
+/*
+
+Janki Gajera - Udacity FEND Project #2 -- Memory Card Game
+
+*/
+
+
 // // select cards (li) and put them into an array + get an initial array count
 let cards = [...document.querySelectorAll('.card')];
 const cardNum = cards.length;
 const cardDeck = document.querySelector('.deck');
 
-/*   - shuffle the list of cards using the provided "shuffle" method below
- *   - loop through each card and create its HTML
- *   - add each card's HTML to the page
- */
-// // Shuffle function from
-// // http://stackoverflow.com/a/2450976
+//   - shuffle the list of cards using the provided "shuffle" method below
+// // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
   var currentIndex = array.length,
     temporaryValue, randomIndex;
@@ -47,19 +50,16 @@ shuffle(cards);
 
 
 
-/*
- * set up the event listener for a card. If a card is clicked:
- *  - display the card's symbol (put this functionality in another function that you call from this one)
- */
+// set up the event listener for a card
 // // // select cards in a fresh variable, select open cards, add event listener onto all cards and attach reveal card function to the event
 let cardSelector = [...document.querySelectorAll('.card')];
 
 cardEvents(cardSelector);
 
-function cardEvents(m) {
+function cardEvents(n) {
   for (let k = 0; k < cardNum; k++) {
-    m[k].addEventListener('click', cardReveal);
-    m[k].addEventListener('click', moveCounter);
+    n[k].addEventListener('click', cardReveal);
+    n[k].addEventListener('click', moveCounter);
   }
 }
 
@@ -96,7 +96,6 @@ function cardReveal(callback) {
       let firstPick = openCards[0].innerHTML;
       let secondPick = openCards[1].innerHTML;
       if (firstPick === secondPick) {
-        openCards[0].classList.remove('show');
         openCards[1].classList.remove('show');
         openCards[0].classList.add('match');
         openCards[1].classList.add('match');
@@ -109,7 +108,7 @@ function cardReveal(callback) {
         openCards[1].classList.add('error');
         openCards[0].classList.add('error');
         // show both cards for 1 second so user can memorize both cards, then flip them back over to not show/open
-        setTimeout(removeShow, 600);
+        setTimeout(removeShow, 400);
         return openCards;
       }
     }
@@ -119,9 +118,9 @@ function cardReveal(callback) {
   // remove 'error' class from all cards on every run through, only add error class in the instance above
   let cardSelect = [...document.querySelectorAll('.card')];
 
-  for (let k = 0; k < cardNum; k++) {
+  for (let o = 0; o < cardNum; o++) {
     // cardSelector[k].addEventListener('click', matchFunction);
-    cardSelect[k].classList.remove('error');
+    cardSelect[o].classList.remove('error');
   };
 
   // function to remove open and show classes after timeout function when two cards don't match
@@ -132,6 +131,7 @@ function cardReveal(callback) {
     openCards[1].classList.remove('open');
   }
 
+
 }
 
 
@@ -139,7 +139,12 @@ function cardReveal(callback) {
 
 
 /*
-Timer - taken partially from https://www.sitepoint.com/community/t/want-timer-to-start-on-button-click-always-starts-on-load-why/291783
+
+Timer
+
+
+taken partially from https://www.sitepoint.com/community/t/want-timer-to-start-on-button-click-always-starts-on-load-why/291783
+
  */
 
 timerSpan = document.getElementById("timerDiv");
@@ -148,22 +153,28 @@ let m = 0;
 
 let timerStart;
 
+let clockStopped = true;
+
 function timerFunction() {
   timerStart = setInterval(function startTimer() {
-    // add 1 second to timer as time goes on
-    m++;
-    if (m >= 0) {
-      // convert counter to minutes, round down to get whole number, and add 0 in front if it's a single digit
-      let rawMins = Math.floor(m / 60);
-      let mins = rawMins.toString().padStart(2, "0");
-      // convert leftover seconds into double digits
-      let rawSeconds = m - (mins * 60);
-      let seconds = rawSeconds.toString().padStart(2, "0");
-      // inject mins and seconds into HTML as a timer
-      timerSpan.innerHTML = mins + ":" + seconds;
+
+    if (clockStopped = true) {
+      // add 1 second to timer as time goes on
+      m++;
+      if (m >= 0) {
+        // convert counter to minutes, round down to get whole number, and add 0 in front if it's a single digit
+        let rawMins = Math.floor(m / 60);
+        let mins = rawMins.toString().padStart(2, "0");
+        // convert leftover seconds into double digits
+        let rawSeconds = m - (mins * 60);
+        let seconds = rawSeconds.toString().padStart(2, "0");
+        // inject mins and seconds into HTML as a timer
+        timerSpan.innerHTML = mins + ":" + seconds;
+      }
+      // remove the event listener on the card deck so timer doesn't keep resetting
+      removeEventListenerTimer();
+      clockStopped = false;
     }
-    // remove the event listener on the card deck so timer doesn't keep resetting
-    removeEventListenerTimer();
   }, 1000);
 }
 
@@ -175,7 +186,11 @@ function removeEventListenerTimer() {
 
 
 
+/*
 
+Restart Button
+
+*/
 
 
 // // // restart button functionality
@@ -189,15 +204,17 @@ function resetFunction() {
   shuffle(cards);
 
   // and clear timer HTML
+  m = 0;
+  clockStopped = true;
   clearInterval(timerStart);
-  timerSpan.innerHTML = '00:00';
+  timerSpan.innerHTML = "00:00";
+  cardDeck.addEventListener('click', timerFunction);
 
   moveCount = 0;
   moveCounter();
 
   let cardSelect = [...document.querySelectorAll('.card')];
   cardEvents(cardSelect);
-
 
 }
 
@@ -209,6 +226,7 @@ function resetFunction() {
 Move Counter and Star Rating
 
  */
+
 
 // grab stars so we can inject HTML and decrement as moves go up
 const starRating = document.querySelector('.stars');
@@ -235,36 +253,36 @@ function moveCounter() {
   if (moveCount <= 10) {
     starRating.innerHTML = '';
 
-    for (let l = 0; l < 5; l++) {
-      starRating.insertAdjacentHTML('afterbegin', stars[l].outerHTML);
+    for (let p = 0; p < 5; p++) {
+      starRating.insertAdjacentHTML('afterbegin', stars[p].outerHTML);
     }
   } else if (moveCount > 10 && moveCount <= 20) {
     // if moves between 10 and 20, 4 stars
     starRating.innerHTML = '';
 
-    for (let m = 0; m < 4; m++) {
-      starRating.insertAdjacentHTML('afterbegin', stars[m].outerHTML);
+    for (let q = 0; q < 4; q++) {
+      starRating.insertAdjacentHTML('afterbegin', stars[q].outerHTML);
     }
   } else if (moveCount > 20 && moveCount <= 30) {
     // if moves between 20 and 30, 3 stars
     starRating.innerHTML = '';
 
-    for (let m = 0; m < 3; m++) {
-      starRating.insertAdjacentHTML('afterbegin', stars[m].outerHTML);
+    for (let r = 0; r < 3; r++) {
+      starRating.insertAdjacentHTML('afterbegin', stars[r].outerHTML);
     }
   } else if (moveCount > 30 && moveCount <= 40) {
     // if moves between 30 and 40, 2 stars
     starRating.innerHTML = '';
 
-    for (let m = 0; m < 2; m++) {
-      starRating.insertAdjacentHTML('afterbegin', stars[m].outerHTML);
+    for (let s = 0; s < 2; s++) {
+      starRating.insertAdjacentHTML('afterbegin', stars[s].outerHTML);
     }
   } else if (moveCount > 40) {
     // if moves over 40, 1 star
     starRating.innerHTML = '';
 
-    for (let m = 0; m < 1; m++) {
-      starRating.insertAdjacentHTML('afterbegin', stars[m].outerHTML);
+    for (let t = 0; t < 1; t++) {
+      starRating.insertAdjacentHTML('afterbegin', stars[t].outerHTML);
     }
   }
 }
@@ -291,8 +309,6 @@ function congratsModal() {
 
   // if there are no more open cards, launch the congrats modal
   if (remainingClosed === 0) {
-    // pause timer
-    clearInterval(timerStart);
 
     // grab how many stars are left for the rating, set variable to the final stars div
     let finalStars = [...document.querySelectorAll('.stars li')];
@@ -314,9 +330,23 @@ function congratsModal() {
     finalMovesDiv.insertAdjacentHTML('afterbegin', finalMoves);
     finalTimeDiv.insertAdjacentHTML('afterbegin', finalTime);
 
-    document.getElementById('modal-link').click();
+    // pause timer
+    clearInterval(timerStart);
 
+    document.getElementById('modal-link').click();
 
   }
 
+}
+
+
+
+// replay button in congrats modal functionality
+let replayButton = document.querySelector('#replayButton');
+replayButton.addEventListener('click', restartGame);
+
+// // click the modal close button, then click the restart button to prevent having to reload the page
+function restartGame() {
+  document.querySelector('.modal-close').click();
+  document.querySelector('.restart-link').click();
 }
