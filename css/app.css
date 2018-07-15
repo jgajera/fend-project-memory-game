@@ -229,3 +229,7 @@ Modal CSS, from https://ctrlq.org/code/20083-modal-popup-css
     font-weight: 100;
     padding: 5px 10px;
 }
+
+#modal-link {
+    display: none;
+}
