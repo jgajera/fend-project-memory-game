@@ -22,7 +22,9 @@ Clone with HTTPS to your local machine
 https://github.com/jgajera/fend-project-memory-game.git
 ```
 ### Was it successful?
-You should see all of the files from the [Github repo](https://github.com/jgajera/fend-project-memory-game) in your folder system on your local computer! If not, please raise an issue - you likely have a problem with your Git or Github configuration.
+You should see all of the files from the [Github repo](https://github.com/jgajera/fend-project-memory-game) in your folder system on your local computer! If not, please raise an [issue](https://github.com/jgajera/fend-project-memory-game/issues) - you likely have a problem with your Git or Github configuration.
+
+You should be able to open up index.html in your browser and play with the game right away.
 
 ## Resources
 I used the following resources:
