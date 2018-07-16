@@ -13,7 +13,7 @@ const cardDeck = document.querySelector('.deck');
 //   - shuffle the list of cards using the provided "shuffle" method below
 // // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
-  var currentIndex = array.length,
+  let currentIndex = array.length,
     temporaryValue, randomIndex;
 
   while (currentIndex !== 0) {
@@ -229,13 +229,13 @@ Move Counter and Star Rating
 
 
 // grab stars so we can inject HTML and decrement as moves go up
-const starRating = document.querySelector('.stars');
+const removeStars = document.querySelector('.stars');
 const stars = [...document.querySelectorAll('.stars li')];
 
 // initialize stars at 5 stars
-starRating.innerHTML = '';
+removeStars.innerHTML = '';
 for (let l = 0; l < 5; l++) {
-  starRating.insertAdjacentHTML('afterbegin', stars[l].outerHTML);
+  removeStars.insertAdjacentHTML('afterbegin', stars[l].outerHTML);
 }
 
 // init move counter at 0 so we can add onto it later
@@ -251,38 +251,38 @@ function moveCounter() {
 
   // if moves = or less than 10, 5 stars
   if (moveCount <= 10) {
-    starRating.innerHTML = '';
+    removeStars.innerHTML = '';
 
     for (let p = 0; p < 5; p++) {
-      starRating.insertAdjacentHTML('afterbegin', stars[p].outerHTML);
+      removeStars.insertAdjacentHTML('afterbegin', stars[p].outerHTML);
     }
   } else if (moveCount > 10 && moveCount <= 20) {
     // if moves between 10 and 20, 4 stars
-    starRating.innerHTML = '';
+    removeStars.innerHTML = '';
 
     for (let q = 0; q < 4; q++) {
-      starRating.insertAdjacentHTML('afterbegin', stars[q].outerHTML);
+      removeStars.insertAdjacentHTML('afterbegin', stars[q].outerHTML);
     }
   } else if (moveCount > 20 && moveCount <= 30) {
     // if moves between 20 and 30, 3 stars
-    starRating.innerHTML = '';
+    removeStars.innerHTML = '';
 
     for (let r = 0; r < 3; r++) {
-      starRating.insertAdjacentHTML('afterbegin', stars[r].outerHTML);
+      removeStars.insertAdjacentHTML('afterbegin', stars[r].outerHTML);
     }
   } else if (moveCount > 30 && moveCount <= 40) {
     // if moves between 30 and 40, 2 stars
-    starRating.innerHTML = '';
+    removeStars.innerHTML = '';
 
     for (let s = 0; s < 2; s++) {
-      starRating.insertAdjacentHTML('afterbegin', stars[s].outerHTML);
+      removeStars.insertAdjacentHTML('afterbegin', stars[s].outerHTML);
     }
   } else if (moveCount > 40) {
     // if moves over 40, 1 star
-    starRating.innerHTML = '';
+    removeStars.innerHTML = '';
 
     for (let t = 0; t < 1; t++) {
-      starRating.insertAdjacentHTML('afterbegin', stars[t].outerHTML);
+      removeStars.insertAdjacentHTML('afterbegin', stars[t].outerHTML);
     }
   }
 }
