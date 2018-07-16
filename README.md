@@ -6,6 +6,7 @@ This project is a variation of the memory game, where you flip cards over in pai
 * [Instructions](#instructions)
 * [Resources](#resources)
 * [Contributing](#contributing)
+* [Authors](#authors)
 * [Miscellaneous Notes](#miscnotes)
 
 ## Instructions
@@ -37,6 +38,9 @@ I used the following resources:
 
 ## Contributing
 Not accepting contributions! Feel free to open an issue if you find one. Thanks!
+
+## Authors
+- Richard Kalehoff from Udacity provided the starter code in the [Udacity repo](https://github.com/udacity/fend-project-memory-game)
 
 ## MiscNotes
 This project is based on the starter code from Udacity FEND's repo for this project.
