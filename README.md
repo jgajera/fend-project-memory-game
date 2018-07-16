@@ -28,11 +28,11 @@ You should be able to open up index.html in your browser and play with the game 
 
 ## Resources
 I used the following resources:
-- Shuffle function: http://stackoverflow.com/a/2450976
-- Timer function: https://www.sitepoint.com/community/t/want-timer-to-start-on-button-click-always-starts-on-load-why/291783
-- All-CSS congratulations modal: https://ctrlq.org/code/20083-modal-popup-css
-- Bootstrap front-end framework: https://getbootstrap.com/
-- Google Fonts: Coda -- https://fonts.google.com/
+- [Shuffle function](http://stackoverflow.com/a/2450976)
+- [Timer function](https://www.sitepoint.com/community/t/want-timer-to-start-on-button-click-always-starts-on-load-why/291783)
+- [All-CSS congratulations modal](https://ctrlq.org/code/20083-modal-popup-css)
+- [Bootstrap front-end framework](https://getbootstrap.com/)
+- [Google Fonts: Coda](https://fonts.google.com/)
 - No Javascript library was used in this project, it was written in vanilla JS.
 
 ## Contributing
