@@ -14,9 +14,13 @@ To get a copy of this repo, please follow these instructions:
 You'll want `git` installed on your machine. For help setting up `git`, follow instructions from [this free course from Udacity](https://www.udacity.com/course/version-control-with-git--ud123). Also, familiarity with HTML, CSS, and Javascript will set you up for success.
 ### Installation
 Clone with SSH to your local machine
-```git@github.com:jgajera/fend-project-memory-game.git```
+```
+git@github.com:jgajera/fend-project-memory-game.git
+```
 Clone with HTTPS to your local machine
-```https://github.com/jgajera/fend-project-memory-game.git```
+```
+https://github.com/jgajera/fend-project-memory-game.git
+```
 ### Was it successful?
 You should see all of the files from the [Github repo](https://github.com/jgajera/fend-project-memory-game) in your folder system on your local computer! If not, please raise an issue - you likely have a problem with your Git or Github configuration.
 
